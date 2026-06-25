@@ -9,13 +9,14 @@ import {
   StartupSummary,
   UpdateStartupPayload
 } from './api.models';
+import { environment } from '../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StartupService {
 
- private baseUrl = 'http://localhost:8090/startups'; 
+  private baseUrl = `${environment.apiUrl}/startups`;
 
   constructor(private http: HttpClient) {}
 
@@ -76,14 +77,14 @@ getStartupInvestors(id: number) {
 
 invest(startupId: number, amount: number) {
   return this.http.post(
-    `http://localhost:8090/investor/investments/${startupId}?amount=${amount}`,
+    `${environment.apiUrl}/investor/investments/${startupId}?amount=${amount}`,
     {}
   );
 }
 
 showInterest(startupId: number) {
   return this.http.post(
-    `http://localhost:8090/investor/interest/${startupId}`,
+    `${environment.apiUrl}/investor/interest/${startupId}`,
     {} // empty body
   );
 }

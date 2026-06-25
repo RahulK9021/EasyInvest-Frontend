@@ -1,14 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Industry, InvestmentHistoryItem, InvestorDashboard, StartupSummary, TopStartup } from './api.models';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InvestorService {
 
-  private baseUrl = 'http://localhost:8090/investor/startups';
-  private investorUrl = 'http://localhost:8090/investor/investments';
+  private baseUrl = `${environment.apiUrl}/investor/startups`;
+  private investorUrl = `${environment.apiUrl}/investor/investments`;
 
   constructor(private http: HttpClient) {}
 
@@ -33,6 +34,6 @@ getFilter(industryId: number, min: number, max: number) {
 }
 
 getIndustries() {
-  return this.http.get<Industry[]>(`http://localhost:8090/api/industries`);
+  return this.http.get<Industry[]>(`${environment.apiUrl}/industries`);
 }
 }

@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Industry, StartupDetail, UserRecord } from './api.models';
+import { environment} from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminService {
-  private adminUrl = 'http://localhost:8090/admin';
+  private adminUrl = `${environment.apiUrl}/admin`;
 
   constructor(private http: HttpClient) {}
 
@@ -23,6 +24,6 @@ export class AdminService {
   }
 
   createIndustry(name: string) {
-    return this.http.post<Industry>(`http://localhost:8090/admin/industries?name=${encodeURIComponent(name)}`, {});
+    return this.http.post<Industry>(`${this.adminUrl}/industries?name=${encodeURIComponent(name)}`, {});
   }
 }

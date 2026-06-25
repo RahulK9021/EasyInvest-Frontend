@@ -11,11 +11,13 @@ import {
   StartupUpdate
 } from './api.models';
 
+import { environment } from '../../environments/environment';
+
 @Injectable({
   providedIn: 'root'
 })
 export class EngagementService {
-  private apiUrl = 'http://localhost:8090';
+  private apiUrl = `${environment.apiUrl}`;
 
   constructor(private http: HttpClient) {}
 
