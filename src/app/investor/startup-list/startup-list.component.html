@@ -1,0 +1,116 @@
+﻿<section class="page-shell listing-page">
+  <div class="listing-header">
+    <div>
+      <span class="eyebrow">Startup marketplace</span>
+      <h1 class="section-title">Explore startups with a sharper, investor-friendly view.</h1>
+      <p class="section-copy">
+        Browse, search, and filter startups using the same backend tasks the product already exposes,
+        then open the profile when you want to invest or signal interest.
+      </p>
+    </div>
+
+    <div class="glass-panel search-panel">
+      <div class="filter-form">
+        <div class="full-span">
+          <label class="field-label" for="startup-search">Search startups</label>
+          <input
+            id="startup-search"
+            class="field-input"
+            type="search"
+            placeholder="Search by company, founder, industry, or problem"
+            [(ngModel)]="searchTerm"
+          />
+        </div>
+
+        <div>
+          <label class="field-label" for="industry">Industry</label>
+          <select id="industry" class="field-select" [(ngModel)]="industryId">
+            <option [ngValue]="null">All industries</option>
+            <option *ngFor="let industry of industries" [ngValue]="industry.id">{{ industry.name }}</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="field-label" for="minAmount">Min ask</label>
+          <input id="minAmount" class="field-input" type="number" [(ngModel)]="minAmount" placeholder="100000" />
+        </div>
+
+        <div>
+          <label class="field-label" for="maxAmount">Max ask</label>
+          <input id="maxAmount" class="field-input" type="number" [(ngModel)]="maxAmount" placeholder="1000000" />
+        </div>
+      </div>
+
+      <div class="filter-actions">
+        <button type="button" class="btn-brand" (click)="applyFilters()">Apply</button>
+        <button type="button" class="btn-ghost" (click)="resetFilters()">Reset</button>
+      </div>
+
+      <small>{{ startups.length }} result{{ startups.length === 1 ? '' : 's' }}</small>
+    </div>
+  </div>
+
+  <div *ngIf="errorMessage" class="alert-clean error">{{ errorMessage }}</div>
+
+  <div *ngIf="loading" class="card-grid">
+    <article class="status-card skeleton-card" *ngFor="let _ of [1, 2, 3, 4]"></article>
+  </div>
+
+  <div *ngIf="!loading && !startups.length" class="empty-state">
+    No startups match your current filters. Try a broader search or reset the filters.
+  </div>
+
+  <div *ngIf="!loading && startups.length" class="card-grid">
+    <article class="status-card startup-card" *ngFor="let startup of startups; trackBy: trackByStartup">
+      <div class="startup-topline">
+        <span class="pill">{{ startup.industryName || 'Emerging sector' }}</span>
+        <div class="quick-actions">
+          <button
+            *ngIf="isInvestor"
+            class="icon-button"
+            type="button"
+            [title]="bookmarkedStartupIds.has(startup.id) ? 'Remove bookmark' : 'Save startup'"
+            (click)="toggleBookmark(startup.id)"
+          >
+            {{ bookmarkedStartupIds.has(startup.id) ? '★' : '☆' }}
+          </button>
+          <span class="funding-chip">Rs {{ startup.amountRequired | number:'1.0-0' }}</span>
+        </div>
+      </div>
+
+      <h2>{{ startup.companyName }}</h2>
+      <p class="founder-copy">Founded by {{ startup.founderName || 'Independent team' }}</p>
+
+      <div class="startup-meta">
+        <span>Founded {{ startup.foundedYear || 'recently' }}</span>
+        <span>{{ startup.teamSize || 0 }} team members</span>
+        <span>{{ startup.equityOffered || 0 }}% equity offered</span>
+      </div>
+
+      <p class="problem-copy">{{ startup.problem || 'Problem statement coming soon.' }}</p>
+
+      <div class="detail-grid">
+        <div>
+          <strong>Revenue</strong>
+          <span>Rs {{ startup.revenue | number:'1.0-0' }}</span>
+        </div>
+        <div>
+          <strong>Valuation</strong>
+          <span>Rs {{ startup.valuation | number:'1.0-0' }}</span>
+        </div>
+      </div>
+
+      <div class="card-actions">
+        <button
+          *ngIf="isInvestor"
+          class="btn-ghost"
+          type="button"
+          (click)="toggleFollow(startup.id)"
+        >
+          {{ followedStartupIds.has(startup.id) ? 'Following' : 'Follow' }}
+        </button>
+        <a class="btn-brand card-action" [routerLink]="['/startups', startup.id]">Open startup profile</a>
+      </div>
+    </article>
+  </div>
+</section>

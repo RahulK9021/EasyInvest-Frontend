@@ -1,0 +1,180 @@
+﻿.detail-page {
+  padding: 22px 0 20px;
+}
+
+.back-link {
+  display: inline-flex;
+  margin-bottom: 18px;
+  color: var(--primary-deep);
+  font-weight: 700;
+}
+
+.detail-layout {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 24px;
+}
+
+.story-panel,
+.action-card {
+  border-radius: 30px;
+}
+
+.story-panel {
+  padding: 26px;
+}
+
+.story-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: start;
+  margin-bottom: 24px;
+}
+
+.story-header h1,
+.action-card h2,
+.metrics-panel h2 {
+  margin: 16px 0 10px;
+}
+
+.headline-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  min-width: 260px;
+}
+
+.headline-stats div,
+.metrics-grid div,
+.investor-row {
+  padding: 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.64);
+}
+
+.headline-stats strong,
+.metrics-grid strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.headline-stats span,
+.metrics-grid span,
+.story-panel p,
+.action-card p,
+.investor-row span {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.narrative-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.compact-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.progress-bar {
+  width: 100%;
+  height: 12px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(15, 118, 110, 0.12);
+  margin-bottom: 16px;
+}
+
+.progress-fill {
+  display: block;
+  height: 100%;
+  background: linear-gradient(135deg, var(--primary) 0%, #14958c 100%);
+}
+
+.investor-list,
+.action-stack,
+.timeline-list,
+.document-list,
+.stacked-actions {
+  display: grid;
+  gap: 18px;
+}
+
+.investor-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.action-card {
+  padding: 24px;
+}
+
+.action-button {
+  width: 100%;
+  margin-top: 6px;
+}
+
+.timeline-item,
+.document-row {
+  padding: 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.64);
+}
+
+.timeline-item p {
+  margin: 8px 0;
+}
+
+.timeline-item small,
+.document-row strong {
+  color: var(--muted);
+}
+
+.document-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.loading-card {
+  border-radius: var(--radius-xl);
+}
+
+@media (max-width: 960px) {
+  .detail-layout,
+  .narrative-grid,
+  .compact-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 680px) {
+  .story-panel,
+  .action-card {
+    padding: 20px;
+  }
+
+  .headline-stats,
+  .metrics-grid {
+    grid-template-columns: 1fr;
+    min-width: 0;
+  }
+
+  .story-header,
+  .investor-row {
+    flex-direction: column;
+    align-items: start;
+  }
+}

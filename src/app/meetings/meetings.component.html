@@ -1,0 +1,24 @@
+<section class="page-shell simple-page">
+  <div class="page-heading">
+    <span class="eyebrow">Meetings</span>
+    <h1 class="section-title">Requested founder and investor meetings.</h1>
+  </div>
+
+  <div *ngIf="loading" class="status-card">Loading meetings...</div>
+  <div *ngIf="!loading && !meetings.length" class="empty-state">No meeting requests yet.</div>
+
+  <div *ngIf="!loading && meetings.length" class="meeting-list">
+    <article class="status-card meeting-card" *ngFor="let meeting of meetings">
+      <div>
+        <span class="pill">{{ meeting.status }}</span>
+        <h2>{{ meeting.startupName }}</h2>
+        <p>{{ meeting.investorName }} with {{ meeting.founderName }}</p>
+        <small>{{ meeting.meetingDate | date:'medium' }}</small>
+      </div>
+      <div class="action-row" *ngIf="isFounder && meeting.status === 'PENDING'">
+        <button class="btn-brand" type="button" (click)="updateStatus(meeting.id, 'ACCEPTED')">Accept</button>
+        <button class="btn-ghost" type="button" (click)="updateStatus(meeting.id, 'REJECTED')">Reject</button>
+      </div>
+    </article>
+  </div>
+</section>

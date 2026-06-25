@@ -1,0 +1,21 @@
+<section class="page-shell simple-page">
+  <div class="page-heading">
+    <span class="eyebrow">Following</span>
+    <h1 class="section-title">Startup updates you want to keep tracking.</h1>
+  </div>
+
+  <div *ngIf="loading" class="status-card">Loading followed startups...</div>
+  <div *ngIf="!loading && !startups.length" class="empty-state">You are not following any startups yet.</div>
+
+  <div *ngIf="!loading && startups.length" class="card-grid">
+    <article class="status-card startup-row" *ngFor="let startup of startups">
+      <div>
+        <strong>{{ startup.companyName }}</strong>
+        <span>{{ startup.industryName || 'Emerging sector' }}</span>
+      </div>
+      <span>Rs {{ (startup.fundingGoal || 0) | number:'1.0-0' }}</span>
+      <a class="btn-brand" [routerLink]="['/startups', startup.startupId]">View Details</a>
+      <button class="btn-ghost" type="button" (click)="unfollow(startup.startupId)">Unfollow</button>
+    </article>
+  </div>
+</section>

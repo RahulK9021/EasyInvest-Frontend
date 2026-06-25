@@ -1,0 +1,39 @@
+.simple-page {
+  padding: 54px 0;
+}
+
+.page-heading,
+.conversation-list {
+  display: grid;
+  gap: 16px;
+}
+
+.page-heading {
+  margin-bottom: 26px;
+}
+
+.conversation-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.conversation-card div {
+  display: grid;
+  gap: 6px;
+}
+
+.conversation-card span {
+  color: var(--muted);
+}
+
+.unread-dot {
+  min-width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--primary);
+  color: #fff !important;
+  font-weight: 800;
+}

@@ -1,0 +1,45 @@
+﻿<header class="page-shell navbar-wrap">
+  <nav class="glass-panel navbar-shell">
+    <a routerLink="/" class="brand-mark">
+      <span class="brand-badge">EI</span>
+      <span class="brand-copy">
+        <strong>EasyInvest</strong>
+      </span>
+    </a>
+
+    <div class="nav-links">
+      <a routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+      <a routerLink="/startups" routerLinkActive="active-link">Explore</a>
+      <a *ngIf="isLoggedIn" [routerLink]="dashboardRoute" routerLinkActive="active-link">Dashboard</a>
+      <a *ngIf="role === 'INVESTOR'" routerLink="/saved-startups" routerLinkActive="active-link">Saved</a>
+      <a *ngIf="role === 'INVESTOR'" routerLink="/following" routerLinkActive="active-link">Following</a>
+      <a *ngIf="isLoggedIn" routerLink="/messages" routerLinkActive="active-link">Messages</a>
+      <a *ngIf="isLoggedIn" routerLink="/meetings" routerLinkActive="active-link">Meetings</a>
+      <a *ngIf="!isLoggedIn" routerLink="/register" routerLinkActive="active-link">Create account</a>
+    </div>
+
+    <div class="nav-actions">
+      <div *ngIf="isLoggedIn" class="notification-menu">
+        <a routerLink="/notifications" class="bell-button" title="Notifications">
+          <span>N</span>
+          <strong *ngIf="unreadCount">{{ unreadCount }}</strong>
+        </a>
+        <div class="notification-dropdown">
+          <button
+            type="button"
+            *ngFor="let notification of latestNotifications"
+            [class.unread]="!notification.isRead"
+            (click)="markRead(notification)"
+          >
+            <span>{{ notification.title }}</span>
+            <small>{{ notification.message }}</small>
+          </button>
+          <a routerLink="/notifications">View all notifications</a>
+        </div>
+      </div>
+      <span *ngIf="isLoggedIn" class="role-chip">{{ role | titlecase }}</span>
+      <a *ngIf="!isLoggedIn" routerLink="/login" class="nav-login">Sign in</a>
+      <button *ngIf="isLoggedIn" type="button" class="nav-logout" (click)="logout()">Logout</button>
+    </div>
+  </nav>
+</header>

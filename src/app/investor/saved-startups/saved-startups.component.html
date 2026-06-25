@@ -1,0 +1,22 @@
+<section class="page-shell simple-page">
+  <div class="page-heading">
+    <span class="eyebrow">Saved startups</span>
+    <h1 class="section-title">Companies you bookmarked for a closer look.</h1>
+  </div>
+
+  <div *ngIf="loading" class="status-card">Loading saved startups...</div>
+  <div *ngIf="!loading && !startups.length" class="empty-state">No saved startups yet.</div>
+
+  <div *ngIf="!loading && startups.length" class="card-grid">
+    <article class="status-card startup-row" *ngFor="let startup of startups">
+      <div class="logo-mark">{{ logoText(startup.companyName) }}</div>
+      <div>
+        <strong>{{ startup.companyName }}</strong>
+        <span>{{ startup.industryName || 'Emerging sector' }}</span>
+      </div>
+      <span>Rs {{ (startup.fundingGoal || 0) | number:'1.0-0' }}</span>
+      <a class="btn-brand" [routerLink]="['/startups', startup.startupId]">View Details</a>
+      <button class="btn-ghost" type="button" (click)="remove(startup.startupId)">Remove</button>
+    </article>
+  </div>
+</section>

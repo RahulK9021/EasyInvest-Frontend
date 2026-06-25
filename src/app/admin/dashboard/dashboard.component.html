@@ -1,0 +1,63 @@
+﻿<section class="page-shell admin-page">
+  <div class="dashboard-header">
+    <div>
+      <span class="eyebrow">Admin tasks</span>
+      <h1 class="section-title">Moderate the platform, review users, and manage startup records.</h1>
+      <p class="section-copy">
+        This admin view is now wired to the backend task APIs for users, startups, deletion, and industry creation.
+      </p>
+    </div>
+
+    <a routerLink="/startups" class="btn-ghost">Open marketplace</a>
+  </div>
+
+  <div class="admin-grid">
+    <article class="glass-panel panel-card">
+      <h2>Create industry</h2>
+      <p>Add a new industry category for founder startup creation forms.</p>
+      <div *ngIf="successMessage" class="alert-clean success">{{ successMessage }}</div>
+      <div *ngIf="errorMessage" class="alert-clean error">{{ errorMessage }}</div>
+      <div class="inline-form">
+        <input class="field-input" [(ngModel)]="industryName" placeholder="Fintech" />
+        <button class="btn-brand" type="button" (click)="createIndustry()">Create</button>
+      </div>
+    </article>
+
+    <article class="glass-panel panel-card">
+      <h2>Users</h2>
+      <div *ngIf="users.length; else noUsers" class="table-list">
+        <div class="table-row" *ngFor="let user of users">
+          <div>
+            <strong>{{ user.fullName }}</strong>
+            <span>{{ user.email }}</span>
+          </div>
+          <span class="pill neutral-pill">{{ user.role }}</span>
+        </div>
+      </div>
+
+      <ng-template #noUsers>
+        <div class="empty-state">User records will appear here once the API responds.</div>
+      </ng-template>
+    </article>
+
+    <article class="glass-panel panel-card full-span">
+      <h2>Startups</h2>
+      <div *ngIf="startups.length; else noStartups" class="table-list">
+        <div class="table-row startup-row" *ngFor="let startup of startups">
+          <div>
+            <strong>{{ startup.companyName }}</strong>
+            <span>{{ startup.industry?.name || startup.industryName || 'Uncategorized' }}</span>
+          </div>
+          <div class="startup-actions">
+            <span>Rs {{ startup.amountRequired || 0 | number:'1.0-0' }}</span>
+            <button class="btn-ghost compact-button" type="button" (click)="deleteStartup(startup.id)">Delete</button>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #noStartups>
+        <div class="empty-state">Startup moderation data will appear here once records are available.</div>
+      </ng-template>
+    </article>
+  </div>
+</section>

@@ -1,0 +1,102 @@
+<section class="page-shell auth-page">
+
+  <div class="auth-layout">
+
+    <!-- Left Side -->
+    <div class="auth-story">
+
+      <span class="eyebrow">Capital meets conviction</span>
+
+      <h1>
+        Back the next serious startup with a workspace built for trust.
+      </h1>
+
+      <p>
+        EasyInvest helps founders present their business clearly and gives investors
+        a cleaner way to discover, evaluate and commit capital.
+      </p>
+
+
+    </div>
+
+    <!-- Right Side -->
+    <div class="auth-card glass-panel">
+
+      <div class="auth-card-copy">
+
+        <span class="eyebrow">Welcome back</span>
+
+        <h2>Sign in</h2>
+
+        <p>
+          Use your account to access your personalized workspace.
+        </p>
+
+      </div>
+
+      <div class="demo-row">
+
+        <button class="demo-pill"
+                type="button"
+                (click)="fillDemo('INVESTOR')">
+          Investor Demo
+        </button>
+
+        <button class="demo-pill"
+                type="button"
+                (click)="fillDemo('FOUNDER')">
+          Founder Demo
+        </button>
+
+
+      </div>
+
+       <form (ngSubmit)="onLogin()" #loginForm="ngForm" class="auth-form">
+        <div>
+          <label class="field-label" for="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            class="field-input"
+            name="email"
+            [(ngModel)]="loginData.email"
+            required
+            email
+            #email="ngModel"
+            placeholder="founder@easyinvest.com"
+          />
+          <small class="field-error" *ngIf="email.invalid && email.touched">Enter a valid email address.</small>
+        </div>
+
+        <div>
+          <label class="field-label" for="password">Password</label>
+          <input
+            id="password"
+            type="password"
+            class="field-input"
+            name="password"
+            [(ngModel)]="loginData.password"
+            required
+            minlength="4"
+            #password="ngModel"
+            placeholder="Enter your password"
+          />
+          <small class="field-error" *ngIf="password.invalid && password.touched">Minimum 4 characters required.</small>
+        </div>
+
+        <div *ngIf="errorMessage" class="alert-clean error">
+          {{ errorMessage }}
+        </div>
+
+        <button class="btn-brand auth-submit" [disabled]="loginForm.invalid || loading">
+          <span *ngIf="!loading">Open dashboard</span>
+          <span *ngIf="loading">Signing you in...</span>
+        </button>
+      </form>
+      <!-- Keep your form exactly the same -->
+
+    </div>
+
+  </div>
+
+</section>

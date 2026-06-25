@@ -1,0 +1,24 @@
+<section class="page-shell simple-page">
+  <div class="page-heading">
+    <span class="eyebrow">Notifications</span>
+    <h1 class="section-title">Recent activity across your InvestKaro workspace.</h1>
+  </div>
+
+  <div *ngIf="loading" class="status-card">Loading notifications...</div>
+  <div *ngIf="!loading && !notifications.length" class="empty-state">No notifications yet.</div>
+
+  <div *ngIf="!loading && notifications.length" class="notification-list">
+    <article class="status-card notification-card" [class.unread]="!notification.isRead" *ngFor="let notification of notifications">
+      <div>
+        <span class="pill">{{ notification.type }}</span>
+        <h2>{{ notification.title }}</h2>
+        <p>{{ notification.message }}</p>
+        <small>{{ notification.createdAt | date:'medium' }}</small>
+      </div>
+      <div class="action-row">
+        <button *ngIf="!notification.isRead" class="btn-brand" type="button" (click)="markRead(notification)">Mark read</button>
+        <button class="btn-ghost" type="button" (click)="deleteNotification(notification.id)">Delete</button>
+      </div>
+    </article>
+  </div>
+</section>

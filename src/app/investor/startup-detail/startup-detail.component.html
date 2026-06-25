@@ -1,0 +1,181 @@
+﻿<section class="page-shell detail-page">
+  <a routerLink="/startups" class="back-link">Back to startup list</a>
+
+  <div *ngIf="loading" class="status-card loading-card">Loading startup profile...</div>
+  <div *ngIf="errorMessage" class="alert-clean error">{{ errorMessage }}</div>
+
+  <div *ngIf="startup && !loading" class="detail-layout">
+    <article class="glass-panel story-panel">
+      <div class="story-header">
+        <div>
+          <span class="pill">{{ industryName }}</span>
+          <h1>{{ startup.companyName }}</h1>
+          <p class="section-copy">Led by {{ founderName }}</p>
+        </div>
+
+        <div class="headline-stats">
+          <div>
+            <strong>Rs {{ startup.amountRequired | number:'1.0-0' }}</strong>
+            <span>funding required</span>
+          </div>
+          <div>
+            <strong>{{ startup.equityOffered || 0 }}%</strong>
+            <span>equity offered</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="narrative-grid">
+        <section class="status-card">
+          <h2>Problem</h2>
+          <p>{{ startup.problem || 'Problem statement coming soon.' }}</p>
+        </section>
+
+        <section class="status-card">
+          <h2>Solution</h2>
+          <p>{{ startup.solution || 'Solution summary coming soon.' }}</p>
+        </section>
+      </div>
+
+      <section *ngIf="progress" class="status-card metrics-panel">
+        <h2>Funding progress</h2>
+        <div class="progress-bar">
+          <span class="progress-fill" [style.width.%]="progress.progressPercentage > 100 ? 100 : progress.progressPercentage"></span>
+        </div>
+        <div class="metrics-grid compact-grid">
+          <div>
+            <strong>Raised</strong>
+            <span>Rs {{ progress.amountRaised | number:'1.0-0' }}</span>
+          </div>
+          <div>
+            <strong>Target</strong>
+            <span>Rs {{ progress.amountRequired | number:'1.0-0' }}</span>
+          </div>
+          <div>
+            <strong>Progress</strong>
+            <span>{{ progress.progressPercentage | number:'1.0-0' }}%</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="status-card metrics-panel">
+        <h2>Business snapshot</h2>
+        <div class="metrics-grid">
+          <div>
+            <strong>Founded</strong>
+            <span>{{ startup.foundedYear || 'N/A' }}</span>
+          </div>
+          <div>
+            <strong>Team size</strong>
+            <span>{{ startup.teamSize || 0 }}</span>
+          </div>
+          <div>
+            <strong>Revenue</strong>
+            <span>Rs {{ startup.revenue | number:'1.0-0' }}</span>
+          </div>
+          <div>
+            <strong>Burn rate</strong>
+            <span>Rs {{ startup.burnRate | number:'1.0-0' }}</span>
+          </div>
+          <div>
+            <strong>Valuation</strong>
+            <span>Rs {{ startup.valuation | number:'1.0-0' }}</span>
+          </div>
+          <div>
+            <strong>Total funding</strong>
+            <span>Rs {{ startup.totalFunding | number:'1.0-0' }}</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="status-card metrics-panel">
+        <h2>Investor activity</h2>
+        <div *ngIf="investors.length; else noInvestors" class="investor-list">
+          <div class="investor-row" *ngFor="let investor of investors">
+            <span>{{ investor.investorName }}</span>
+            <strong>Rs {{ investor.amount | number:'1.0-0' }}</strong>
+          </div>
+        </div>
+
+        <ng-template #noInvestors>
+          <div class="empty-state">Investor names and amounts will appear here as commitments come in.</div>
+        </ng-template>
+      </section>
+
+      <section class="status-card metrics-panel">
+        <h2>Startup updates</h2>
+        <div *ngIf="updates.length; else noUpdates" class="timeline-list">
+          <article class="timeline-item" *ngFor="let update of updates">
+            <strong>{{ update.title }}</strong>
+            <p>{{ update.description }}</p>
+            <small>{{ update.createdAt | date:'medium' }}</small>
+          </article>
+        </div>
+        <ng-template #noUpdates>
+          <div class="empty-state">Founder updates will appear here.</div>
+        </ng-template>
+      </section>
+
+      <section class="status-card metrics-panel">
+        <h2>Documents</h2>
+        <div *ngIf="documents.length; else noDocuments" class="document-list">
+          <a *ngFor="let document of documents" class="document-row" [href]="downloadUrl(document)" target="_blank">
+            <span>{{ document.fileName }}</span>
+            <strong>{{ document.fileType }}</strong>
+          </a>
+        </div>
+        <ng-template #noDocuments>
+          <div class="empty-state">No shared documents yet.</div>
+        </ng-template>
+      </section>
+    </article>
+
+    <aside class="action-stack">
+      <article class="glass-panel action-card" *ngIf="isInvestor">
+        <h2>Investor tools</h2>
+        <p>Save, follow, message, or request a meeting with the founder.</p>
+
+        <div class="stacked-actions">
+          <button class="btn-ghost action-button" type="button" (click)="bookmark()">Save startup</button>
+          <button class="btn-ghost action-button" type="button" (click)="follow()">Follow startup</button>
+          <button class="btn-brand action-button" type="button" (click)="startConversation()">Message founder</button>
+        </div>
+
+        <label class="field-label" for="meeting-date">Meeting date</label>
+        <input id="meeting-date" class="field-input" type="datetime-local" [(ngModel)]="meetingDate" />
+        <button class="btn-ghost action-button" type="button" (click)="requestMeeting()">Request meeting</button>
+
+        <div *ngIf="actionMessage" class="alert-clean success">{{ actionMessage }}</div>
+      </article>
+
+      <article class="glass-panel action-card">
+        <h2>Invest now</h2>
+        <p>Use the investor investment API directly from this screen.</p>
+
+        <label class="field-label" for="investment-amount">Investment amount</label>
+        <input
+          id="investment-amount"
+          type="number"
+          class="field-input"
+          [(ngModel)]="amount"
+          placeholder="250000"
+        />
+
+        <button class="btn-brand action-button" (click)="invest()">Submit investment</button>
+
+        <div *ngIf="investSuccessMessage" class="alert-clean success">{{ investSuccessMessage }}</div>
+        <div *ngIf="investErrorMessage" class="alert-clean error">{{ investErrorMessage }}</div>
+      </article>
+
+      <article class="glass-panel action-card">
+        <h2>Show interest</h2>
+        <p>Not ready to invest yet? Record interest and keep the founder conversation warm.</p>
+
+        <button class="btn-ghost action-button" (click)="showInterest()">Mark interest</button>
+
+        <div *ngIf="interestSuccessMessage" class="alert-clean success">{{ interestSuccessMessage }}</div>
+        <div *ngIf="interestErrorMessage" class="alert-clean error">{{ interestErrorMessage }}</div>
+      </article>
+    </aside>
+  </div>
+</section>

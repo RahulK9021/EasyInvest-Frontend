@@ -1,0 +1,106 @@
+﻿<section class="page-shell dashboard-page">
+  <div class="dashboard-header">
+    <div>
+      <span class="eyebrow">Investor dashboard</span>
+      <h1 class="section-title">Monitor your investment activity and keep discovering strong opportunities.</h1>
+      <p class="section-copy">
+        This screen brings together your headline numbers, startup filters, the top-funded companies currently drawing attention,
+        and your actual investment history from the backend history API.
+      </p>
+    </div>
+
+    <a routerLink="/startups" class="btn-brand">Explore more startups</a>
+  </div>
+
+  <div class="stats-grid">
+    <article class="status-card">
+      <strong>Rs {{ dashboard.totalInvested | number:'1.0-0' }}</strong>
+      <span>Total invested</span>
+    </article>
+    <article class="status-card">
+      <strong>{{ dashboard.totalStartups || 0 }}</strong>
+      <span>Startups backed</span>
+    </article>
+    <article class="status-card">
+      <strong>Rs {{ dashboard.largestInvestment | number:'1.0-0' }}</strong>
+      <span>Largest commitment</span>
+    </article>
+  </div>
+
+  <div class="dashboard-grid">
+    <article class="glass-panel filter-card">
+      <h2>Filter startup opportunities</h2>
+      <p>Use the investor startup range and filter APIs to narrow opportunities by funding ask and industry.</p>
+
+      <div class="filter-grid">
+        <div>
+          <label class="field-label" for="minAmount">Minimum ask</label>
+          <input id="minAmount" class="field-input" type="number" [(ngModel)]="min" placeholder="100000" />
+        </div>
+
+        <div>
+          <label class="field-label" for="maxAmount">Maximum ask</label>
+          <input id="maxAmount" class="field-input" type="number" [(ngModel)]="max" placeholder="1000000" />
+        </div>
+
+        <div>
+          <label class="field-label" for="industryId">Industry</label>
+          <select id="industryId" class="field-select" [(ngModel)]="industryId">
+            <option [ngValue]="null">All industries</option>
+            <option *ngFor="let industry of industries" [ngValue]="industry.id">{{ industry.name }}</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="btn-ghost filter-action" (click)="applyFilter()">Apply filters</button>
+
+      <div *ngIf="filteredOpportunities.length" class="results-list">
+        <article class="result-item" *ngFor="let startup of filteredOpportunities">
+          <strong>{{ startup.companyName }}</strong>
+          <span>
+            {{ startup.industryName || 'Active opportunity' }}
+            <ng-container *ngIf="startup.amountRequired"> · Rs {{ startup.amountRequired | number:'1.0-0' }}</ng-container>
+          </span>
+        </article>
+      </div>
+
+      <div *ngIf="!filteredOpportunities.length" class="empty-state">
+        Filtered startup results will appear here when available.
+      </div>
+    </article>
+
+    <article class="glass-panel panel-card">
+      <h2>Top funded startups</h2>
+      <div *ngIf="topFunded.length; else noTopFunded" class="stack-list">
+        <div class="stack-row" *ngFor="let startup of topFunded">
+          <div>
+            <strong>{{ startup.companyName }}</strong>
+            <span>{{ startup.fundingPercentage | number:'1.0-0' }}% of target funded</span>
+          </div>
+          <strong>Rs {{ startup.totalFunding | number:'1.0-0' }}</strong>
+        </div>
+      </div>
+
+      <ng-template #noTopFunded>
+        <div class="empty-state">Top-funded companies will show up here once the API returns data.</div>
+      </ng-template>
+    </article>
+
+    <article class="glass-panel panel-card full-span">
+      <h2>Recent investment history</h2>
+      <div *ngIf="history.length; else noHistory" class="stack-list">
+        <div class="stack-row" *ngFor="let item of history">
+          <div>
+            <strong>{{ item.startupName }}</strong>
+            <span>{{ item.date | date:'medium' }}</span>
+          </div>
+          <strong>Rs {{ item.amount | number:'1.0-0' }}</strong>
+        </div>
+      </div>
+
+      <ng-template #noHistory>
+        <div class="empty-state">Your investment history will appear here after your first completed investment.</div>
+      </ng-template>
+    </article>
+  </div>
+</section>

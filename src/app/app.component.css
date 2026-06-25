@@ -1,0 +1,8 @@
+.app-shell {
+  min-height: 100vh;
+  position: relative;
+}
+
+.app-content {
+  padding: 20px 0 40px;
+}

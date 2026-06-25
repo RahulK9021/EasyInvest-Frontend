@@ -1,0 +1,19 @@
+<section class="page-shell simple-page">
+  <div class="page-heading">
+    <span class="eyebrow">Messages</span>
+    <h1 class="section-title">Conversations with founders and investors.</h1>
+  </div>
+
+  <div *ngIf="loading" class="status-card">Loading conversations...</div>
+  <div *ngIf="!loading && !conversations.length" class="empty-state">No conversations yet.</div>
+
+  <div *ngIf="!loading && conversations.length" class="conversation-list">
+    <a class="status-card conversation-card" *ngFor="let conversation of conversations" [routerLink]="['/messages', conversation.id]">
+      <div>
+        <strong>{{ conversation.startupName }}</strong>
+        <span>{{ conversation.investorName }} and {{ conversation.founderName }}</span>
+      </div>
+      <span *ngIf="conversation.unreadCount" class="unread-dot">{{ conversation.unreadCount }}</span>
+    </a>
+  </div>
+</section>

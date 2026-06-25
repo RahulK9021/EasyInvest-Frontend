@@ -1,0 +1,63 @@
+<section class="page-shell register-page">
+  <div class="glass-panel register-card">
+    <div class="register-copy">
+      <span class="eyebrow">Create account</span>
+      <h1 class="section-title">Join the investment workspace.</h1>
+      <p class="section-copy">
+        Start as a founder, investor, or admin and move into the dashboard that fits your workflow.
+      </p>
+    </div>
+
+    <form class="register-form" (ngSubmit)="onRegister()" #registerForm="ngForm">
+      <div class="grid-two">
+        <div>
+          <label class="field-label" for="fullName">Full name</label>
+          <input id="fullName" class="field-input" name="fullName" [(ngModel)]="registerData.fullName" required />
+        </div>
+
+        <div>
+          <label class="field-label" for="registerEmail">Email</label>
+          <input id="registerEmail" type="email" class="field-input" name="email" [(ngModel)]="registerData.email" required email />
+        </div>
+      </div>
+
+      <div class="grid-two">
+        <div>
+          <label class="field-label" for="registerPassword">Password</label>
+          <input id="registerPassword" type="password" class="field-input" name="password" [(ngModel)]="registerData.password" required minlength="4" />
+        </div>
+
+        <div>
+          <label class="field-label" for="role">Role</label>
+          <select id="role" class="field-select" name="role" [(ngModel)]="registerData.role">
+            <option value="FOUNDER">Founder</option>
+            <option value="INVESTOR">Investor</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid-two">
+        <div>
+          <label class="field-label" for="phone">Phone</label>
+          <input id="phone" class="field-input" name="phone" [(ngModel)]="registerData.phone" required />
+        </div>
+
+        <div>
+          <label class="field-label" for="location">Location</label>
+          <input id="location" class="field-input" name="location" [(ngModel)]="registerData.location" required />
+        </div>
+      </div>
+
+      <div *ngIf="successMessage" class="alert-clean success">{{ successMessage }}</div>
+      <div *ngIf="errorMessage" class="alert-clean error">{{ errorMessage }}</div>
+
+      <div class="register-actions">
+        <button class="btn-brand" [disabled]="registerForm.invalid || loading">
+          <span *ngIf="!loading">Create account</span>
+          <span *ngIf="loading">Creating account...</span>
+        </button>
+        <a routerLink="/login" class="btn-ghost">Back to login</a>
+      </div>
+    </form>
+  </div>
+</section>

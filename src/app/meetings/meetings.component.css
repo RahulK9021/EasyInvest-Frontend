@@ -1,0 +1,42 @@
+.simple-page {
+  padding: 54px 0;
+}
+
+.page-heading,
+.meeting-list {
+  display: grid;
+  gap: 16px;
+}
+
+.page-heading {
+  margin-bottom: 26px;
+}
+
+.meeting-card {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.meeting-card h2 {
+  margin: 12px 0 6px;
+}
+
+.meeting-card p,
+.meeting-card small {
+  color: var(--muted);
+}
+
+.action-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+@media (max-width: 760px) {
+  .meeting-card,
+  .action-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

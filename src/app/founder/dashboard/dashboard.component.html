@@ -1,0 +1,267 @@
+﻿<section class="page-shell founder-page">
+  <div class="dashboard-header">
+    <div>
+      <span class="eyebrow">Founder tasks</span>
+      <h1 class="section-title">Create, update, and manage startups from one founder workspace.</h1>
+      <p class="section-copy">
+        This dashboard now follows the backend tasks directly: founder dashboard metrics, startup creation,
+        startup updates, deletion, funding progress, and investor visibility.
+      </p>
+    </div>
+
+    <a routerLink="/startups" class="btn-ghost">Preview marketplace</a>
+  </div>
+
+  <div class="stats-grid" *ngIf="dashboardItems.length; else noDashboard">
+    <article class="status-card" *ngFor="let item of dashboardItems">
+      <strong>{{ item.companyName }}</strong>
+      <span>Rs {{ item.totalFunding | number:'1.0-0' }} raised of Rs {{ item.amountRequired | number:'1.0-0' }}</span>
+      <span>{{ item.totalInvestors }} investors · {{ item.fundingPercentage | number:'1.0-0' }}% funded</span>
+    </article>
+  </div>
+
+  <ng-template #noDashboard>
+    <div class="empty-state">No founder dashboard data yet. Create your first startup below.</div>
+  </ng-template>
+
+  <div class="workspace-grid">
+    <article class="glass-panel form-card">
+      <h2>Create startup</h2>
+      <p>Use the founder startup creation API to publish a new company profile.</p>
+
+      <div *ngIf="successMessage" class="alert-clean success">{{ successMessage }}</div>
+      <div *ngIf="errorMessage" class="alert-clean error">{{ errorMessage }}</div>
+
+      <div class="form-grid">
+        <div>
+          <label class="field-label">Company name</label>
+          <input class="field-input" [(ngModel)]="startupForm.companyName" />
+        </div>
+        <div>
+          <label class="field-label">Industry</label>
+          <select class="field-select" [(ngModel)]="startupForm.industryId">
+            <option [ngValue]="null">Select industry</option>
+            <option *ngFor="let industry of industries" [ngValue]="industry.id">{{ industry.name }}</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label">Founded year</label>
+          <input class="field-input" type="number" [(ngModel)]="startupForm.foundedYear" />
+        </div>
+        <div>
+          <label class="field-label">Team size</label>
+          <input class="field-input" type="number" [(ngModel)]="startupForm.teamSize" />
+        </div>
+        <div class="full-span">
+          <label class="field-label">Business model</label>
+          <input class="field-input" [(ngModel)]="startupForm.businessModel" />
+        </div>
+        <div class="full-span">
+          <label class="field-label">Problem</label>
+          <textarea class="field-input area-input" [(ngModel)]="startupForm.problem"></textarea>
+        </div>
+        <div class="full-span">
+          <label class="field-label">Solution</label>
+          <textarea class="field-input area-input" [(ngModel)]="startupForm.solution"></textarea>
+        </div>
+        <div>
+          <label class="field-label">Target market</label>
+          <input class="field-input" [(ngModel)]="startupForm.targetMarket" />
+        </div>
+        <div>
+          <label class="field-label">USP</label>
+          <input class="field-input" [(ngModel)]="startupForm.usp" />
+        </div>
+        <div>
+          <label class="field-label">Competitors</label>
+          <input class="field-input" [(ngModel)]="startupForm.competitors" />
+        </div>
+        <div>
+          <label class="field-label">Revenue</label>
+          <input class="field-input" type="number" [(ngModel)]="startupForm.revenue" />
+        </div>
+        <div>
+          <label class="field-label">Burn rate</label>
+          <input class="field-input" type="number" [(ngModel)]="startupForm.burnRate" />
+        </div>
+        <div>
+          <label class="field-label">CAC</label>
+          <input class="field-input" type="number" [(ngModel)]="startupForm.cac" />
+        </div>
+        <div>
+          <label class="field-label">LTV</label>
+          <input class="field-input" type="number" [(ngModel)]="startupForm.ltv" />
+        </div>
+        <div>
+          <label class="field-label">Total funding</label>
+          <input class="field-input" type="number" [(ngModel)]="startupForm.totalFunding" />
+        </div>
+        <div>
+          <label class="field-label">Amount required</label>
+          <input class="field-input" type="number" [(ngModel)]="startupForm.amountRequired" />
+        </div>
+        <div>
+          <label class="field-label">Equity offered</label>
+          <input class="field-input" type="number" [(ngModel)]="startupForm.equityOffered" />
+        </div>
+        <div>
+          <label class="field-label">Valuation</label>
+          <input class="field-input" type="number" [(ngModel)]="startupForm.valuation" />
+        </div>
+      </div>
+
+      <button class="btn-brand submit-button" type="button" (click)="createStartup()">Create startup</button>
+    </article>
+
+    <article class="glass-panel insight-card">
+      <h2>Manage existing startup</h2>
+
+      <div class="manage-select" *ngIf="dashboardItems.length">
+        <label class="field-label" for="startup-select">Choose startup</label>
+        <select
+          id="startup-select"
+          class="field-select"
+          [ngModel]="activeStartupId"
+          (ngModelChange)="selectStartup($event)"
+        >
+          <option *ngFor="let item of dashboardItems" [ngValue]="item.startupId">{{ item.companyName }}</option>
+        </select>
+      </div>
+
+      <div *ngIf="selectedStartup; else noCreatedStartup">
+        <div class="detail-block">
+          <strong>{{ selectedStartup.companyName }}</strong>
+          <span>{{ selectedStartup.industry?.name || selectedStartup.industryName || 'Managed startup' }}</span>
+        </div>
+
+        <div class="form-grid compact-form">
+          <div>
+            <label class="field-label">Company name</label>
+            <input class="field-input" [(ngModel)]="updateForm.companyName" />
+          </div>
+          <div>
+            <label class="field-label">Business model</label>
+            <input class="field-input" [(ngModel)]="updateForm.businessModel" />
+          </div>
+          <div>
+            <label class="field-label">Team size</label>
+            <input class="field-input" type="number" [(ngModel)]="updateForm.teamSize" />
+          </div>
+          <div>
+            <label class="field-label">Target market</label>
+            <input class="field-input" [(ngModel)]="updateForm.targetMarket" />
+          </div>
+          <div class="full-span">
+            <label class="field-label">Problem</label>
+            <textarea class="field-input area-input" [(ngModel)]="updateForm.problem"></textarea>
+          </div>
+          <div class="full-span">
+            <label class="field-label">Solution</label>
+            <textarea class="field-input area-input" [(ngModel)]="updateForm.solution"></textarea>
+          </div>
+          <div>
+            <label class="field-label">USP</label>
+            <input class="field-input" [(ngModel)]="updateForm.usp" />
+          </div>
+          <div>
+            <label class="field-label">Competitors</label>
+            <input class="field-input" [(ngModel)]="updateForm.competitors" />
+          </div>
+          <div>
+            <label class="field-label">Revenue</label>
+            <input class="field-input" type="number" [(ngModel)]="updateForm.revenue" />
+          </div>
+          <div>
+            <label class="field-label">Burn rate</label>
+            <input class="field-input" type="number" [(ngModel)]="updateForm.burnRate" />
+          </div>
+          <div>
+            <label class="field-label">CAC</label>
+            <input class="field-input" type="number" [(ngModel)]="updateForm.cac" />
+          </div>
+          <div>
+            <label class="field-label">LTV</label>
+            <input class="field-input" type="number" [(ngModel)]="updateForm.ltv" />
+          </div>
+          <div>
+            <label class="field-label">Total funding</label>
+            <input class="field-input" type="number" [(ngModel)]="updateForm.totalFunding" />
+          </div>
+          <div>
+            <label class="field-label">Amount required</label>
+            <input class="field-input" type="number" [(ngModel)]="updateForm.amountRequired" />
+          </div>
+          <div>
+            <label class="field-label">Equity offered</label>
+            <input class="field-input" type="number" [(ngModel)]="updateForm.equityOffered" />
+          </div>
+          <div>
+            <label class="field-label">Valuation</label>
+            <input class="field-input" type="number" [(ngModel)]="updateForm.valuation" />
+          </div>
+        </div>
+
+        <div class="action-row">
+          <button class="btn-brand" type="button" (click)="updateStartup()">Update startup</button>
+          <button class="btn-ghost danger-button" type="button" (click)="deleteStartup()">Delete startup</button>
+        </div>
+
+        <div *ngIf="progress" class="detail-block">
+          <strong>Funding progress</strong>
+          <span>Rs {{ progress.amountRaised | number:'1.0-0' }} raised of Rs {{ progress.amountRequired | number:'1.0-0' }}</span>
+          <span>{{ progress.progressPercentage | number:'1.0-0' }}% complete</span>
+        </div>
+
+        <div class="detail-block">
+          <strong>Investors</strong>
+          <span *ngIf="investors.length; else noInvestors">{{ investors.length }} investor record{{ investors.length === 1 ? '' : 's' }} loaded</span>
+          <ng-template #noInvestors>
+            <span>No investor commitments yet for this startup.</span>
+          </ng-template>
+        </div>
+
+        <div class="detail-block">
+          <strong>Publish startup update</strong>
+          <input class="field-input" [(ngModel)]="updateTitle" placeholder="Update title" />
+          <textarea class="field-input area-input" [(ngModel)]="updateDescription" placeholder="Share progress, milestones, or traction"></textarea>
+          <button class="btn-brand" type="button" (click)="publishUpdate()">Publish update</button>
+        </div>
+
+        <div class="detail-block">
+          <strong>Timeline</strong>
+          <div *ngIf="updates.length; else noUpdates" class="mini-list">
+            <div *ngFor="let update of updates">
+              <span>{{ update.title }}</span>
+              <small>{{ update.createdAt | date:'medium' }}</small>
+            </div>
+          </div>
+          <ng-template #noUpdates>
+            <span>No updates published yet.</span>
+          </ng-template>
+        </div>
+
+        <div class="detail-block">
+          <strong>Documents</strong>
+          <select class="field-select" [(ngModel)]="documentType">
+            <option>Pitch deck PDF</option>
+            <option>Financial statements</option>
+            <option>Revenue reports</option>
+          </select>
+          <input class="field-input" type="file" (change)="onFileSelected($event)" />
+          <button class="btn-brand" type="button" (click)="uploadDocument()">Upload document</button>
+
+          <div *ngIf="documents.length" class="mini-list">
+            <div *ngFor="let document of documents">
+              <a [href]="downloadUrl(document.id)" target="_blank">{{ document.fileName }}</a>
+              <button class="btn-ghost danger-button" type="button" (click)="deleteDocument(document.id)">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #noCreatedStartup>
+        <div class="empty-state">Create or select a startup to edit it and review funding progress and investor activity.</div>
+      </ng-template>
+    </article>
+  </div>
+</section>

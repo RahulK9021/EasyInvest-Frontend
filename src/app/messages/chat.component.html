@@ -1,0 +1,18 @@
+<section class="page-shell chat-page">
+  <a routerLink="/messages" class="back-link">Back to conversations</a>
+
+  <article class="glass-panel chat-panel">
+    <div class="message-list">
+      <div class="message-row" *ngFor="let message of messages">
+        <strong>{{ message.senderName }}</strong>
+        <p>{{ message.content }}</p>
+        <small>{{ message.timestamp | date:'short' }}</small>
+      </div>
+    </div>
+
+    <div class="composer">
+      <input class="field-input" [(ngModel)]="content" placeholder="Write a message" (keyup.enter)="sendMessage()" />
+      <button class="btn-brand" type="button" (click)="sendMessage()">Send</button>
+    </div>
+  </article>
+</section>

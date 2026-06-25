@@ -1,0 +1,52 @@
+.chat-page {
+  padding: 42px 0;
+}
+
+.back-link {
+  display: inline-flex;
+  margin-bottom: 18px;
+  color: var(--primary-deep);
+  font-weight: 800;
+}
+
+.chat-panel {
+  display: grid;
+  gap: 18px;
+  padding: 22px;
+  border-radius: var(--radius-lg);
+}
+
+.message-list {
+  display: grid;
+  gap: 12px;
+  min-height: 360px;
+  align-content: start;
+}
+
+.message-row {
+  max-width: 720px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: var(--surface-strong);
+  border: 1px solid var(--line);
+}
+
+.message-row p {
+  margin: 6px 0;
+}
+
+.message-row small {
+  color: var(--muted);
+}
+
+.composer {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+}
+
+@media (max-width: 640px) {
+  .composer {
+    grid-template-columns: 1fr;
+  }
+}

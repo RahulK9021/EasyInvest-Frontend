@@ -1,0 +1,46 @@
+.simple-page {
+  padding: 54px 0;
+}
+
+.page-heading,
+.notification-list {
+  display: grid;
+  gap: 16px;
+}
+
+.page-heading {
+  margin-bottom: 26px;
+}
+
+.notification-card {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.notification-card.unread {
+  border-color: rgba(15, 118, 110, 0.36);
+}
+
+.notification-card h2 {
+  margin: 12px 0 6px;
+}
+
+.notification-card p,
+.notification-card small {
+  color: var(--muted);
+}
+
+.action-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+@media (max-width: 760px) {
+  .notification-card,
+  .action-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

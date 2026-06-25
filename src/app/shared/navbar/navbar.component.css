@@ -1,0 +1,420 @@
+/* /* ===========================
+          NAVBAR
+=========================== */
+
+.navbar-wrap{
+    padding-top:24px;
+    margin-bottom:40px;
+}
+
+.navbar-shell{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    gap:30px;
+
+    padding:18px 30px;
+
+    border-radius:28px;
+
+    background:
+            rgba(255,255,255,.72);
+
+    backdrop-filter:
+            blur(20px);
+
+    border:
+            1px solid rgba(255,255,255,.7);
+
+    box-shadow:
+            0 20px 50px rgba(17,24,39,.08);
+
+}
+
+
+/* ===========================
+            BRAND
+=========================== */
+
+.brand-mark{
+
+    display:flex;
+    align-items:center;
+    gap:16px;
+
+    text-decoration:none;
+}
+
+.brand-badge{
+
+    width:56px;
+    height:56px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:18px;
+
+    font-size:1.1rem;
+    font-weight:700;
+
+    color:white;
+
+    background:
+            linear-gradient(
+                    135deg,
+                    #d8a56b,
+                    #9a7d52);
+
+    box-shadow:
+            0 12px 25px rgba(154,125,82,.25);
+
+}
+
+.brand-copy{
+
+    display:flex;
+    flex-direction:column;
+}
+
+.brand-copy strong{
+
+    font-size:1.15rem;
+
+    color:#111827;
+
+    font-family:Georgia,serif;
+}
+
+.brand-copy small{
+
+    color:#6b7280;
+
+    font-size:.8rem;
+
+    max-width:220px;
+}
+
+
+/* ===========================
+          NAV LINKS
+=========================== */
+
+.nav-links{
+
+    display:flex;
+    align-items:center;
+    gap:24px;
+
+    flex-wrap:wrap;
+}
+
+.nav-links a{
+
+    text-decoration:none;
+
+    color:#4b5563;
+
+    font-size:.95rem;
+
+    position:relative;
+
+    transition:.3s;
+}
+
+.nav-links a:hover{
+
+    color:#111827;
+}
+
+.active-link{
+
+    color:#111827 !important;
+
+    font-weight:600;
+}
+
+.active-link::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    bottom:-8px;
+
+    width:100%;
+    height:2px;
+
+    background:#d8a56b;
+
+    border-radius:10px;
+}
+
+
+/* ===========================
+         RIGHT SIDE
+=========================== */
+
+.nav-actions{
+
+    display:flex;
+    align-items:center;
+    gap:18px;
+}
+
+
+/* ===========================
+        ROLE CHIP
+=========================== */
+
+.role-chip{
+
+    padding:10px 18px;
+
+    border-radius:100px;
+
+    background:
+            rgba(255,248,239,.9);
+
+    border:
+            1px solid rgba(154,125,82,.15);
+
+    color:#9a7d52;
+
+    font-size:.85rem;
+
+    font-weight:600;
+}
+
+
+/* ===========================
+          LOGIN
+=========================== */
+
+.nav-login{
+
+    text-decoration:none;
+
+    color:#111827;
+
+    transition:.3s;
+}
+
+.nav-login:hover{
+
+    color:#9a7d52;
+}
+
+
+/* ===========================
+         LOGOUT BUTTON
+=========================== */
+
+.nav-logout{
+
+    border:none;
+
+    padding:12px 22px;
+
+    border-radius:16px;
+
+    color:white;
+
+    cursor:pointer;
+
+    background:
+            linear-gradient(
+                    135deg,
+                    #d8a56b,
+                    #9a7d52);
+
+    transition:.3s;
+
+    box-shadow:
+            0 15px 30px rgba(154,125,82,.25);
+}
+
+.nav-logout:hover{
+
+    transform:
+            translateY(-3px);
+}
+
+
+/* ===========================
+      NOTIFICATION BELL
+=========================== */
+
+.bell-button{
+
+    width:48px;
+    height:48px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    border-radius:50%;
+
+    text-decoration:none;
+
+    position:relative;
+
+    color:#111827;
+
+    background:
+            rgba(255,255,255,.85);
+
+    box-shadow:
+            0 10px 25px rgba(17,24,39,.08);
+
+    transition:.3s;
+}
+
+.bell-button:hover{
+
+    transform:
+            translateY(-3px);
+}
+
+.bell-button strong{
+
+    position:absolute;
+
+    top:-5px;
+    right:-5px;
+
+    width:22px;
+    height:22px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:.7rem;
+
+    color:white;
+
+    border-radius:50%;
+
+    background:#ef4444;
+}
+
+
+/* ===========================
+          RESPONSIVE
+=========================== */
+
+@media(max-width:1200px){
+
+    .navbar-shell{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+    }
+
+}
+
+
+@media(max-width:768px){
+
+    .nav-links{
+
+        gap:16px;
+    }
+
+    .brand-copy small{
+
+        display:none;
+    }
+
+    .nav-actions{
+
+        flex-wrap:wrap;
+    }
+
+}
+/* =========================================
+                NAVBAR WRAPPER
+========================================= */
+
+.navbar-wrap{
+    padding-top:28px;
+    margin-bottom:60px;
+}
+
+
+/* =========================================
+                MAIN NAVBAR
+========================================= */
+
+.navbar-shell{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    gap:40px;
+
+    padding:18px 26px;
+
+    border-radius:32px;
+
+    background:
+            rgba(255,255,255,.68);
+
+    backdrop-filter:
+            blur(18px);
+
+    border:
+            1px solid rgba(255,255,255,.75);
+
+    box-shadow:
+            0 20px 60px rgba(17,24,39,.08);
+
+}
+
+
+/* =========================================
+                    LOGO
+========================================= */
+
+.brand-mark{
+
+    display:flex;
+    align-items:center;
+
+    gap:16px;
+
+    text-decoration:none;
+}
+
+.brand-badge{
+
+    width:58px;
+    height:58px;
+
+    border-radius:20px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    color:white;
+
+    font-weight:700;
+
+    background:
+            linear-gradient(
+                    135deg,
+                    #d8a56b,
+                    #9a7d52);
+
+    box-shadow:
+            0 15px 35
+}
