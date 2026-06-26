@@ -9,7 +9,7 @@ import {
   StartupSummary,
   UpdateStartupPayload
 } from './api.models';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
